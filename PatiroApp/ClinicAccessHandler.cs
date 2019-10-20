@@ -70,7 +70,8 @@ namespace PatiroApp
                                     clinic.Description = newClinic.Description;
                                     clinic.City = newClinic.City;
                                     clinic.ZipCode = newClinic.ZipCode;
-                                    clinic.Members = newClinic.Members;
+                                    if(newClinic.Members != null)
+                                        clinic.Members = newClinic.Members;
                                     done = true;
                                 }
                             }
