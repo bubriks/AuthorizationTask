@@ -6,5 +6,7 @@ namespace PatiroApp.DataManagers.Interface
     public interface IClinicDM
     {
         List<Clinic> GetClinics();
+
+        void UpdateClinic(Clinic newClinic, User user);
     }
 }

@@ -28,12 +28,6 @@ namespace PatiroApp
             services.AddCors();
             services.AddControllers();
 
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy("ClinicModifyAccess", policy =>
-                    policy.Requirements.Add(new ClinicAccessRequirement()));
-            });
-
             // configure strongly typed settings objects
             var appSettingsSection = Configuration.GetSection("AppSettings");
             services.Configure<AppSettings>(appSettingsSection);
@@ -60,7 +54,6 @@ namespace PatiroApp
             });
 
             services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddTransient<IAuthorizationHandler, ClinicAccessHandler>();
             // configure DI for application services
             services.AddScoped<IClinicDM, ClinicDM>();
             services.AddScoped<IUserDM, UserDM>();

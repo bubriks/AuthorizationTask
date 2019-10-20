@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PatiroApp.DataManagers;
 using PatiroApp.DataManagers.Interface;
 using PatiroApp.Models;
 
@@ -24,19 +25,14 @@ namespace PatiroApp.Controllers
         }
 
         [HttpPut]
-        [Authorize(Policy = "ClinicModifyAccess")]
         public IActionResult Put(int id, [FromBody] Clinic newClinic)
         {
             var clinics = _clinicDM.GetClinics();
-            if (clinics.Exists(x => x.Id == id))
-            {
-                var index = clinics.FindIndex(x => x.Id == id);
-                clinics[index] = newClinic;
-            }
-            else
+            User user = UserDM._users.Find(x => x.Username.Equals(User.Identity.Name));
+            if (clinics.Exists(x => x.Id == id) && user != null)
             {
                 newClinic.Id = id;
-                clinics.Add(newClinic);
+                _clinicDM.UpdateClinic(newClinic, user);
             }
 
             return Ok(clinics.Find(x => x.Id == id));
